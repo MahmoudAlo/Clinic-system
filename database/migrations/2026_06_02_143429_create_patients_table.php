@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone')->nullable();
-            $table->string('birth_date');
+            $table->date('birth_date');
             $table->enum('gender',['male','female']);
             $table->timestamps();
         });

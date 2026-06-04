@@ -2,47 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorPatientRequest;
+use App\Http\Requests\UpdatePatientRequest;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $patients = Patient::all();
+        return $patients;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(StorPatientRequest $request)
     {
-        //
+        $patient = Patient::create($request->validated());
+        return response()->json($patient);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        return response()->json($patient);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function update(UpdatePatientRequest $request, string $id)
     {
-        //
+        $valdatedData = $request->validated();
+        $patient = Patient::findOrFail($id);
+        $patient->update($valdatedData);
+        return response()->json($patient);
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        $patient->delete();
+        return response()->json('deleted successfly');
+
     }
 }

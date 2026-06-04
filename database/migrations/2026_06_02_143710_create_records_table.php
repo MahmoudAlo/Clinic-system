@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('patient_id');
             $table->string('diagnosis');
             $table->string('treatment');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
