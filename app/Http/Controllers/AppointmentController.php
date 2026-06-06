@@ -2,47 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAppointmentRequest;
+use App\Http\Requests\UpdateAppointmentRequest;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $appointmet = Appointment::all();
+        return response()->json($appointmet);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+ 
+    public function store(StoreAppointmentRequest $request)
+    {   
+        $validatedData = $request->validated();
+        Appointment::create($validatedData);
+        return response()->json('Created Successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
+  
     public function show(string $id)
-    {
-        //
+    {   
+        $appointment = Appointment::findOrFail($id);
+        return response()->json($appointment);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+ 
+    public function update(UpdateAppointmentRequest $request, string $id)
     {
-        //
+        $validatedData = $request->validated();
+        $appointment = Appointment::findOrFail($id);
+        $appointment->update($validatedData);
+        return response()->json($appointment);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
     public function destroy(string $id)
     {
-        //
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
+        return response()->json('Deleted Succssfully');
     }
 }
